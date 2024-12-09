@@ -1,0 +1,6 @@
+[book]
+authors = ["HotShot0901"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Documentation"
