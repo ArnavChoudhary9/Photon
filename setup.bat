@@ -14,7 +14,12 @@ echo ---- Complete
 echo 3. Installing PyImGUI . . .
 cd Libraries\PyImGUI
 python setup.py install
+cd ..\..
 echo ---- Complete
 
-echo 4. Initialization Complete
+echo 4. Installing Engine
+pip install -e .
+echo ---- Complete
+
+echo 5. Initialization Complete
 pause
