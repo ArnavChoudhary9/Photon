@@ -1,0 +1,7 @@
+{
+    "python.analysis.exclude": [
+        "Libraries/*"
+    ],
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.diagnosticMode": "openFilesOnly"
+}
