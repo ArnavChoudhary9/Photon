@@ -11,9 +11,15 @@ class PhotonApplication(ABC):
     
     def __init__(self) -> None:
         self._Running = True
+        
+        self.OnStart()
     
     @abstractmethod 
+    def OnStart(self) -> None: ...
+    @abstractmethod 
     def OnUpdate(self, dt: float) -> None: ...
+    @abstractmethod 
+    def OnEnd(self, dt: float) -> None: ...
     
     def Run(self) -> None:
         while self._Running:
@@ -21,6 +27,7 @@ class PhotonApplication(ABC):
             self.OnUpdate(0)
             
     def Close(self) -> None:
+        self.OnEnd()
         self._Running = False
 
 def FindSubclass() -> Type[PhotonApplication]:
