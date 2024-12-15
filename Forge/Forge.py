@@ -1,10 +1,11 @@
 from Photon import *
 
 class Forge(PhotonApplication):
-    def OnStart(self) -> None: pass
+    def OnStart(self) -> None:
+        ClientLoggers.Info("Test")
     
     def OnUpdate(self, dt: float) -> None:
-        print("In User teritory")
+        ClientLoggers.Info("In User teritory")
         self.Close()
         
     def OnEnd(self) -> None: pass

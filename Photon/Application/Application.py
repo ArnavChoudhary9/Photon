@@ -1,8 +1,7 @@
 from ..Core import Features
+from ..Logging import *
 
 from abc import ABC, abstractmethod
-import importlib.resources
-import pkg_resources
 from typing import Type
 import sys, inspect
 
@@ -40,6 +39,7 @@ def FindSubclass() -> Type[PhotonApplication]:
 def AppRunner() -> None:
     # InstrumentorObj.BeginSession("Asura_Initialization")
     subclass: Type[PhotonApplication] = FindSubclass()
+    ClientLoggers.Subscribe(Logger(subclass.__name__))
     
     try: app = subclass()
     except Exception as e:

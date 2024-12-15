@@ -48,5 +48,5 @@ Now there are two ways to run the editor. If you want to just run the engine to 
 
 Photon draws a lot of insperation for [Hazel](https://github.com/TheCherno/Hazel), and a lot of learning from [The Cherno](https://youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&si=joZeeB9E0mV37S28).
 
-- Find [Documentation](https://arnavchoudhary9.github.io/Photon/docs/book)
+- Find [Documentation here](https://arnavchoudhary9.github.io/Photon/docs/book)
 - Visit the [DevLog site here](https://arnavchoudhary9.github.io/Photon/devlogs/book)
