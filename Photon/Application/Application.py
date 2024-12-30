@@ -43,14 +43,14 @@ def AppRunner() -> None:
     
     try: app = subclass()
     except Exception as e:
-        print("Cannot initialize the application.\n", e, sep="\n")
+        print("Cannot initialize the application.", e, sep="\n")
         return
     # InstrumentorObj.EndSession()
 
     # InstrumentorObj.BeginSession("Asura_Runtime")
     try: app.Run()
     except Exception as e:
-        print("An error occurred while running the application.\n", e, sep="\n")
+        print("An error occurred while running the application.", e, sep="\n")
     # InstrumentorObj.EndSession()
 
 def Main():
@@ -67,5 +67,4 @@ def Main():
 
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
-    # importlib.resources.open_text("engine.data", filename)
     stats.dump_stats(filename="DetailedProfile.prof")   # The user gets the profiler output
