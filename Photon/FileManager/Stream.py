@@ -1,4 +1,5 @@
-from typing import ByteString, List
+from typing import ByteString, Deque
+from collections import deque
 
 class Stream:
     '''
@@ -46,7 +47,7 @@ class Stream:
         self.__Rptr += size
         return self.__Buffer[self.__Rptr-size:self.__Rptr]
     
-    def Seek(self, offset: int, whence: int=Whence.START) -> None:
+    def SeekRead(self, offset: int, whence: int=Whence.START) -> None:
         '''
         Sets the position of the read pointer.
         
@@ -70,6 +71,30 @@ class Stream:
         elif self.__Rptr > self.__Wptr:
             self.__Rptr = self.__Wptr
             
+    def SeekWrite(self, offset: int, whence: int=Whence.START) -> None:
+        '''
+        Sets the position of the write pointer.
+        
+        Whence:
+            - Whence.START means offset from the start of the stream.
+            - Whence.CURRENT means offset from the current position of the read pointer.
+            - Whence.END means offset (in reverse direction) from the end of the stream.
+                - Rptr = end-offset
+        '''
+        if whence == Stream.Whence.START:
+            self.__Wptr = offset
+        elif whence == Stream.Whence.CURRENT:
+            self.__Wptr += offset
+        elif whence == Stream.Whence.END:
+            self.__Wptr = self.__Wptr - offset
+        else:
+            raise ValueError("Invalid whence value.")
+        
+        if self.__Wptr < 0:
+            self.__Wptr = 0
+        if self.__Wptr > len(self.__Buffer):
+            self.__Wptr = len(self.__Buffer)
+            
     def ResetRead(self) -> None: self.__Rptr = 0
 
     def Clear(self) -> None:
@@ -83,13 +108,17 @@ class Stream:
     def Closed(self) -> bool: return self.__Closed
     @property
     def Empty(self) -> bool: return (self.__Wptr == 0)
+    @property
+    def Readable(self) -> bool: return not (self.__Rptr == self.__Wptr)
+    @property
+    def ReadyRead(self) -> bool: return self.Readable and self.Closed
     
 class StreamPool:
-    __FreeStreams: List[Stream]
+    __FreeStreams: Deque[Stream]
     __MaxLimit: int
     
     def __init__(self, max_limit: int):
-        self.__FreeStreams = []
+        self.__FreeStreams = deque()
         self.__MaxLimit = max_limit
         
     def Get(self) -> Stream:

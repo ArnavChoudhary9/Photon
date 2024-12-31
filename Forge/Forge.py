@@ -6,8 +6,8 @@ class Forge(PhotonApplication):
         
         # Test loading an asset
         self.AssetPath = Path("Test.asset")
-        with FileOpener(self.AssetPath) as resource:
-            ClientLoggers.Trace(resource.stream.Read().decode())
+        with FileReader(self.AssetPath) as file:
+            ClientLoggers.Trace(file.Read().decode())
     
     def OnUpdate(self, dt: float) -> None:
         ClientLoggers.Info("In User teritory")
@@ -15,8 +15,8 @@ class Forge(PhotonApplication):
         
     def OnEnd(self) -> None:
         # This time we will not see a "Loading Resource" massage
-        with FileOpener(self.AssetPath) as resource:
-            ClientLoggers.Trace(resource.stream.Read().decode())
+        with FileReader(self.AssetPath) as file:
+            ClientLoggers.Trace(file.Read().decode())
 
 if __name__ == "__main__":
     Main()
