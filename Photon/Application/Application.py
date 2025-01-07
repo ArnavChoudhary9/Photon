@@ -1,5 +1,6 @@
 from ..Core import Features
 from ..Logging import *
+from ..Layers import *
 
 from abc import ABC, abstractmethod
 from typing import Type
@@ -7,11 +8,11 @@ import sys, inspect
 
 class PhotonApplication(ABC):
     _Running: bool
+    _LayerStack: LayerStack
     
     def __init__(self) -> None:
         self._Running = True
-        
-        self.OnStart()
+        self._LayerStack = LayerStack()
     
     @abstractmethod 
     def OnStart(self) -> None: ...
@@ -20,14 +21,23 @@ class PhotonApplication(ABC):
     @abstractmethod 
     def OnEnd(self, dt: float) -> None: ...
     
+    def OnEvent(self, event: Event):
+        self._LayerStack.OnEvent(event)
+    
     def Run(self) -> None:
+        self.OnStart()
+        self._LayerStack.OnStart()
+        
         while self._Running:
+            self._LayerStack.OnUpdate(0)
+            
             # Handle user input, draw ImGui, etc.
             self.OnUpdate(0)
-            
-    def Close(self) -> None:
+        
+        self._LayerStack.OnStop()
         self.OnEnd()
-        self._Running = False
+            
+    def Close(self) -> None: self._Running = False
 
 def FindSubclass() -> Type[PhotonApplication]:
     """Find a subclass of Application dynamically."""
