@@ -38,6 +38,7 @@ Now there are two ways to run the editor. If you want to just run the engine to 
 
 1. Run Forge Editor
 
-    `python Forge\Forge.py`
+    `cd Forge`
+    `python Forge.py`
 
 > Congratulations! You have successfully run Forge Editor.
