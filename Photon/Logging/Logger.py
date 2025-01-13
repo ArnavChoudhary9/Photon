@@ -3,14 +3,13 @@ from ..Core.Utility import FlagEnabled
 from ..Core.SubscriptionInterface import SubscriptionInterface
 
 import spdlog
-from typing import List
 
 class Logger:
     @classmethod
     def INIT(cls):
         cls.__LogSinks = [
             spdlog.stdout_color_sink_mt(),
-            spdlog.basic_file_sink_mt("Asura.log", True)
+            spdlog.basic_file_sink_mt("Photon.log", True)
         ]
 
     __slots__ = "__Name", "__Logger"
