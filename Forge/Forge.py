@@ -8,7 +8,7 @@ class Forge(PhotonApplication):
     
     def OnUpdate(self, dt: float) -> None:
         ClientLoggers.Info("In User teritory")
-        self.Close()
+        self.OnEvent(WindowCloseEvent())
         
     def OnEnd(self) -> None: ...
 
