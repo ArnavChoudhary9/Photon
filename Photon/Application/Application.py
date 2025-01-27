@@ -3,6 +3,7 @@ from ..Logging import *
 from ..Events import *
 from ..Layers import *
 from ..FileManager import FileManager
+from ..Instrumentation import *
 
 from abc import ABC, abstractmethod
 from typing import Type
@@ -25,25 +26,37 @@ class PhotonApplication(ABC):
     @abstractmethod 
     def OnUpdate(self, dt: float) -> None: ...
     @abstractmethod 
-    def OnEnd(self, dt: float) -> None: ...
+    def OnEnd(self) -> None: ...
     
     def OnEvent(self, event: Event):
         if self._EventDispatcher.Dispatch(event): return
         self._LayerStack.OnEvent(event)
     
     def Run(self) -> None:
+        appRun = Timer("Application::Run")
+        
         self.OnStart()
         self._LayerStack.OnStart()
         
         while self._Running:
-            self._LayerStack.OnUpdate(0)
+            tick = Timer("Application::Tick")
             
+            layerUpdate = Timer("Application::LayerUpdate")
+            self._LayerStack.OnUpdate(0)
+            del layerUpdate
+            
+            userUpdate = Timer("Application::OnUpdate")
             # Handle user input, draw ImGui, etc.
             self.OnUpdate(0)
+            del userUpdate
             
+            guiRender = Timer("Application::GUIRender")
             self._LayerStack.OnGUIStart()
             self._LayerStack.OnGUIRender()
             self._LayerStack.OnGUIEnd()
+            del guiRender
+            
+            del tick
         
         self._LayerStack.OnStop()
         self.OnEnd()
@@ -61,6 +74,9 @@ def FindSubclass() -> Type[PhotonApplication]:
     raise RuntimeError("No subclass of Application found in the main module.")
 
 def AppRunner() -> None:
+    InstrumentorObj.BeginSession("ApplicationStartUp")
+    
+    startUp = Timer("AppRunner")
     subclass: Type[PhotonApplication] = FindSubclass()
     ClientLoggers.Subscribe(Logger(subclass.__name__))
     
@@ -68,10 +84,15 @@ def AppRunner() -> None:
     except Exception as e:
         print("Cannot initialize the application.", e, sep="\n")
         return
+    
+    del startUp
+    InstrumentorObj.EndSession()
 
+    InstrumentorObj.BeginSession("ApplicationRuntime")
     try: app.Run()
     except Exception as e:
         print("An error occurred while running the application.", e, sep="\n")
+    InstrumentorObj.EndSession()
 
 def Main() -> None:
     # Engine Start Up Code

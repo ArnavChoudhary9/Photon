@@ -156,6 +156,7 @@ cython_debug/
 
 # Profiling and instrumentation
 *.prof
+Application*.json
 
 # Log files
 *.log
