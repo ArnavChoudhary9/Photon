@@ -8,5 +8,7 @@
   - [Managing Files](./usage/managingFiles.md)
   - [Layers](./usage/layers.md)
   - [Events](./usage/events.md)
+  - [Instrumentation](./usage/instrumentation.md)
 - [Appendix](./appendix/appendix.md)
   - [Paths](./appendix/paths.md)
+  - [Features](./appendix/features.md)
