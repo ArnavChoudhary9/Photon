@@ -16,7 +16,10 @@ class Scene:
         self.__Name = name
         self.__UUID = UUID3Generator(name)
 
-        self.__EntityRegistry = EntityRegistry()
+        self.__EntityRegistry = EntityRegistry(
+            self.OnComponentAdded,
+            self.OnComponentRemoved
+        )
 
         self.__ToDelete = set()
         self.__ToDuplicate = set()

@@ -9,6 +9,8 @@
   - [Layers](./usage/layers.md)
   - [Events](./usage/events.md)
   - [Instrumentation](./usage/instrumentation.md)
+  - [ECS](./usage/ecs.md)
+  - [Scene](./usage/scene.md)
 - [Appendix](./appendix/appendix.md)
   - [Paths](./appendix/paths.md)
   - [Features](./appendix/features.md)

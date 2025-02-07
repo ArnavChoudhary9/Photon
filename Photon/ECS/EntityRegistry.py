@@ -1,12 +1,19 @@
-from .Components import CTV
+from .Components import CTV, SupportsComponents
 
 import esper
-from typing import Type, Any, List, Tuple
+from typing import Type, Any, List, Tuple, Callable
 
 class EntityRegistry():
     _World: esper.World
     
-    def __init__(self):
+    __ComponentAddedFunction   : Callable[[Any, SupportsComponents], None]
+    __ComponentRemovedFunction : Callable[[Any, SupportsComponents], None]
+    
+    def __init__(
+        self,
+        componentAddedFunction   : Callable[[Any, CTV], None],
+        componentRemovedFunction : Callable[[Any, CTV], None]
+    ) -> None:
         self._World = esper.World()
 
     def CreateEntity(self) -> int:
@@ -16,13 +23,16 @@ class EntityRegistry():
         self._World.delete_entity(entity, immediate)
 
     def AddComponent(self, entity: int, component_type: Type[CTV], *component_args: Any) -> None:
-        self._World.add_component(entity, component_type(*component_args))
+        self.AddComponentInstance(entity, component_type(*component_args))
         
     def AddComponentInstance(self, entity: int, component: CTV) -> None:
+        self.__ComponentAddedFunction(entity, component) # type: ignore
         self._World.add_component(entity, component)
 
     def RemoveComponent(self, entity: int, component_type: Type[CTV]) -> None:
+        component = self.ComponentForEntity(entity, component_type)
         self._World.remove_component(entity, component_type)
+        self.__ComponentRemovedFunction(entity, component_type) # type: ignore
 
     def GetComponent(self, component_type: Type[Any]) -> List[Tuple[int, CTV]]:
         return self._World.get_component(component_type)
