@@ -1,3 +1,3 @@
 from .Components import *
 from .Entity import *
-from .SupportsScene import *
+from .EntityRegistry import *

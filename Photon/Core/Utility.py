@@ -1,8 +1,9 @@
 from typing import Callable
 from dataclasses import dataclass as DataClass
 
-from uuid import UUID, uuid3, NAMESPACE_URL
+from uuid import UUID, uuid3, uuid4, NAMESPACE_URL
 UUID3Generator: Callable[[str], UUID] = lambda name: uuid3(NAMESPACE_URL, name)
+UUID4Generator: Callable[[], UUID] = lambda: uuid4()
 
 def FlagEnabled(flag: bool):
     def decorator(func):

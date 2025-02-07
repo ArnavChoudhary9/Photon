@@ -7,7 +7,7 @@ class EditorLayer(Overlay):
         # Test loading an asset
         self.AssetPath = Path("Test.asset")
         with FileReader(self.AssetPath) as file:
-            ClientLoggers.Trace(file.Read().decode())
+            ClientLoggers.Trace(file.Read().decode()) # type: ignore
     
     def OnStart(self):
         ClientLoggers.Info("Test")
@@ -18,7 +18,7 @@ class EditorLayer(Overlay):
     def OnStop(self):
         # This time we will not see a "Loading Resource" massage
         with FileReader(self.AssetPath) as file:
-            ClientLoggers.Trace(file.Read().decode())
+            ClientLoggers.Trace(file.Read().decode()) # type: ignore
     
     def OnDestroy(self): ...
     

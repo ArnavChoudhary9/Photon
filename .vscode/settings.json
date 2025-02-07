@@ -1,7 +1,9 @@
 {
     "python.analysis.exclude": [
-        "Libraries/*"
+        "Libraries/*",
+        "venv/*"
     ],
     "python.analysis.completeFunctionParens": true,
-    "python.analysis.diagnosticMode": "openFilesOnly"
+    "python.analysis.diagnosticMode": "workspace",
+    "python.analysis.typeCheckingMode": "standard"
 }

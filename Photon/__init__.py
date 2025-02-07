@@ -6,5 +6,6 @@ from .Instrumentation import *
 from .Layers          import *
 from .Logging         import *
 from .Project         import *
+from .Scene           import *
 
 from pathlib import Path

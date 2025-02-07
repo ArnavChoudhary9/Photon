@@ -31,7 +31,7 @@ class Stream:
         if self.__Closed:
             raise IOError("Stream is closed.")
         self.__Wptr += len(data)  # Update write pointer after writing data to buffer
-        self.__Buffer += data
+        self.__Buffer += data # type: ignore
         
         return self.__Wptr
         

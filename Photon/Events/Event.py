@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Protocol
+from typing import Callable, Dict, Protocol, TypeVar
 
 # This just shifts 1 to i th BIT
 def BIT(i: int) -> int:
@@ -45,6 +45,8 @@ class SupportsEvents(Protocol):
     @property
     def CategoryFlags(self) -> int: ...
 
+_T = TypeVar("_T", bound=SupportsEvents)
+
 class EventDispatcher:
     __Map: Dict[int, Callable[[SupportsEvents], bool]]
 
@@ -56,8 +58,8 @@ class EventDispatcher:
     def __init__(self) -> None:
         self.__Map = {}
 
-    def AddHandler(self, eventType: int, handler: Callable[[SupportsEvents], bool]) -> None:
-        self.__Map[eventType] = handler
+    def AddHandler(self, eventType: int, handler: Callable[[_T], bool]) -> None:
+        self.__Map[eventType] = handler # type: ignore
 
     def Dispatch(self, event: Event) -> bool:
         handler = self.__Map.get(event.EventType, EventDispatcher.DoNothing)

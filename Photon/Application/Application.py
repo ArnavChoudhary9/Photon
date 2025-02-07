@@ -61,7 +61,7 @@ class PhotonApplication(ABC):
         self._LayerStack.OnStop()
         self.OnEnd()
             
-    def CloseEventHandler(self, windowCloseEvent: WindowCloseEvent) -> None:
+    def CloseEventHandler(self, windowCloseEvent: WindowCloseEvent) -> bool:
         windowCloseEvent.Handled = True
         self._Running = False
         return True

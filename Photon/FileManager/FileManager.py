@@ -15,7 +15,7 @@ class File:
     __Path: Path
     __RefCount: int = 0
     __Stream: Stream
-    __LastReleaseTime: int = 0
+    __LastReleaseTime: float = 0
     
     def __init__(self, path: Path, stream: Stream) -> None:
         self.__UUID = UUID3Generator(str(path))
@@ -24,7 +24,7 @@ class File:
         self.__Stream = stream
         self.__LastReleaseTime = 0
     
-    def __enter__(self) -> None:
+    def __enter__(self):
         self.Aquire()
         return self
     
@@ -101,6 +101,7 @@ class FileManager:
         
         FileManager.__ThreadPool.submit(task)
     
+    @staticmethod
     def Load(filename: Path) -> File:
         filename = filename.absolute()
         if filename in FileManager.__Resources: return FileManager.__Resources[filename]
@@ -119,7 +120,8 @@ class FileManager:
         
         FileManager.__ThreadPool.submit(task)
         return file
-        
+     
+    @staticmethod   
     def _CacheHandler() -> None:
         while True:
             with FileManager._Lock:
@@ -129,7 +131,7 @@ class FileManager:
 
                 for file in toDel:
                     FileManager._StreamPool.Return(file.Stream)
-                    del FileManager.__Resources[path]
+                    del FileManager.__Resources[file.Path]
 
             sleep(FileManager.__CacheClearTime)
 
