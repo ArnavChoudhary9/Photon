@@ -9,3 +9,6 @@ from .Project         import *
 from .Scene           import *
 
 from pathlib import Path
+
+from .Core.Version import PHOTON_VERSION
+CoreLogger.Debug("Version: {}", PHOTON_VERSION)

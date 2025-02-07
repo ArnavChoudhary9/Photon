@@ -1,0 +1,7 @@
+PhotonVersion: 0.0.4.dev0
+Project:
+  Name: DefaultProject
+  SceneOrder:
+  - 39e79335-5bc8-3186-98fe-47a12ffe4f8e
+  SceneRegistry:
+    39e79335-5bc8-3186-98fe-47a12ffe4f8e: Scene

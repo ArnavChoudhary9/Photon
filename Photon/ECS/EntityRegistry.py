@@ -15,6 +15,16 @@ class EntityRegistry():
         componentRemovedFunction : Callable[[Any, CTV], None]
     ) -> None:
         self._World = esper.World()
+        
+        self.__ComponentAddedFunction   = componentAddedFunction # type: ignore
+        self.__ComponentRemovedFunction = componentRemovedFunction # type: ignore
+
+    @property
+    def NextEntityID(self) -> int:
+        return self._World._next_entity_id
+    
+    def Exists(self, entity: int) -> bool:
+        return self._World.entity_exists(entity)
 
     def CreateEntity(self) -> int:
         return self._World.create_entity()

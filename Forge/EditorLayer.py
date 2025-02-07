@@ -2,8 +2,12 @@ from Photon import *
 
 class EditorLayer(Overlay):
     AssetPath: Path
+    CurrentScene: Scene
+    CurrentProject: Project
     
     def OnInitialize(self):
+        self.CurrentProject = Project(Path("DefaultProject"), "DefaultProject")
+        
         # Test loading an asset
         self.AssetPath = Path("Test.asset")
         with FileReader(self.AssetPath) as file:
@@ -19,6 +23,8 @@ class EditorLayer(Overlay):
         # This time we will not see a "Loading Resource" massage
         with FileReader(self.AssetPath) as file:
             ClientLoggers.Trace(file.Read().decode()) # type: ignore
+        
+        self.CurrentProject.Save()
     
     def OnDestroy(self): ...
     
