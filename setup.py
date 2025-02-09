@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 VERSION: str = "0.0.0.xxx0"
-with open(".\\Photon\\Core\\VERSION", 'r') as f: VERSION = f.read()
+with open("Photon/Core/VERSION", 'r') as f: VERSION = f.read()
 
 long_description = ""
 with open("README.md") as f:
