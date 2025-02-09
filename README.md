@@ -73,6 +73,8 @@ Use this method if you want to contribute to Photon's development or explore its
 
 #### 3. Running Precompiled binaries
 
+Use this if you only want to run the editor and develope games.
+
 Download the latest precompiled binary from [GitHub](https://github.com/ArnavChoudhary9/Photon/releases).
 
 To run the editor, navigate to the downloaded directory and run `Forge.exe`.
