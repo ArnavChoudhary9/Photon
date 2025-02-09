@@ -1,16 +1,16 @@
 from Photon import *
 
 class EditorLayer(Overlay):
-    AssetPath: Path
-    CurrentScene: Scene
-    CurrentProject: Project
+    __AssetPath: Path
+    __CurrentScene: Scene
+    __CurrentProject: Project
     
     def OnInitialize(self):
-        self.CurrentProject = Project(Path("DefaultProject"), "DefaultProject")
+        self.__CurrentProject = Project(Path("DefaultProject"), "DefaultProject")
         
         # Test loading an asset
-        self.AssetPath = Path("Test.asset")
-        with FileReader(self.AssetPath) as file:
+        self.__AssetPath = Path("Test.asset")
+        with FileReader(self.__AssetPath) as file:
             ClientLoggers.Trace(file.Read().decode()) # type: ignore
     
     def OnStart(self):
@@ -21,10 +21,10 @@ class EditorLayer(Overlay):
     
     def OnStop(self):
         # This time we will not see a "Loading Resource" massage
-        with FileReader(self.AssetPath) as file:
+        with FileReader(self.__AssetPath) as file:
             ClientLoggers.Trace(file.Read().decode()) # type: ignore
         
-        self.CurrentProject.Save()
+        self.__CurrentProject.Save()
     
     def OnDestroy(self): ...
     

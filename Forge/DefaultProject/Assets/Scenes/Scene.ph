@@ -1,5 +1,5 @@
 Entities:
-- Entity: 9c47f57d-cc1f-46ca-bdb7-3829390d729f
+- Entity: 27ec3221-b234-469d-8d00-ed89f8fe254b
   Tag: EmptyEntity
   Transform:
     Rotation: !<Vector3> [0.0, 0.0, 0.0]

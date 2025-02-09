@@ -11,8 +11,10 @@ pytest>=8.2.1
 PyYAML>=6.0
 spdlog>=2.0.4
 watchdog>=3.0.0
+wheel>=0.45.1
 
-pyinstaller>=4.7        # Only for building
+# Only for building
+pyinstaller>=4.7
 
 # For profiling
 snakeviz
