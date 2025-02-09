@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 VERSION: str = "0.0.0.xxx0"
-with open("Photon\\Core\\VERSION", 'r') as f: VERSION = f.read()
+with open(".\\Photon\\Core\\VERSION", 'r') as f: VERSION = f.read()
 
 long_description = ""
 with open("README.md") as f:
@@ -14,12 +14,13 @@ def parse_requirements(filename):
 requirements = parse_requirements('requirements.txt')
 
 setup(
-    name="Photon",
+    name="PhotonEngine",
     version=VERSION,
     packages=find_packages(),
     include_package_data=True,  # Include non-code files
     package_data={
         "Photon": ["*"],  # Specify additional paths
+        "Photon.Core": ["VERSION"],
     },
     install_requires=requirements,
     description="A  game engine written in Python",
@@ -31,6 +32,8 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: Windows",
+        
+        "Operating System :: Microsoft :: Windows :: Windows 10",
+        "Operating System :: Microsoft :: Windows :: Windows 11"
     ],
 )

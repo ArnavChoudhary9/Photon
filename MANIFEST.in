@@ -1,0 +1,3 @@
+include Photon/*
+include Photon/Core/VERSION
+include requirements.txt
