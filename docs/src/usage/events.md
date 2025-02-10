@@ -1,10 +1,11 @@
-# 3.5 Events
+# Events
 
 ## Event Dispatching
 
 The `Event` class and its derivatives manage the flow of events throughout the system. Events are categorized and dispatched using the `EventDispatcher`.
 
 ### Key Components
+
 1. **Event Categories**:
    - Defined using bit flags, allowing a single event to belong to multiple categories.
 2. **Event Types**:
@@ -13,6 +14,7 @@ The `Event` class and its derivatives manage the flow of events throughout the s
    - Maps event types to their respective handlers.
 
 ### Example
+
 ```python
 from Event import Event, EventDispatcher, EventType
 
@@ -36,6 +38,7 @@ dispatcher.Dispatch(event)
 3. If not, the event is passed to the layers in the stack.
 
 ### Example of Layer Handling Events
+
 ```python
 class CustomLayer(Layer):
     def OnEvent(self, event):

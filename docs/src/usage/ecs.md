@@ -1,4 +1,4 @@
-# 3.7 Entity Component System (ECS)
+# Entity Component System (ECS)
 
 ## Overview
 
@@ -10,7 +10,7 @@ This Entity Component System (ECS) is designed for game development and simulati
 
 The `EntityRegistry` class manages entities and their components.
 
-#### Key Methods:
+#### Key Methods
 
 - `CreateEntity()`: Creates a new entity and returns its identifier.
 - `DeleteEntity(entity, immediate=False)`: Deletes an entity and its components.
@@ -23,7 +23,7 @@ The `EntityRegistry` class manages entities and their components.
 
 The `Entity` class represents a game object and provides an interface to interact with its components.
 
-#### Key Methods:
+#### Key Methods
 
 - `HasComponent(componentType)`: Checks if the entity has a specific component.
 - `GetComponent(componentType)`: Retrieves a specific component from the entity.

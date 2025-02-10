@@ -1,3 +1,10 @@
-include Photon/*
-include Photon/Core/VERSION
-include requirements.txt
+include README.md
+include LICENSE
+recursive-include Photon *
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__/*
+global-exclude .git
+global-exclude .git*
+global-exclude build
+global-exclude dist

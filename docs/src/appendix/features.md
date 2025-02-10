@@ -1,4 +1,4 @@
-# 4.2 Features
+# Features
 
 The engine contains a file (`Forge/Core/Features.py`) that can be used to toggle non-essential features of the engine.
 

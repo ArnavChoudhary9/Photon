@@ -1,4 +1,4 @@
-# 3.4 Layers
+# Layers
 
 ## Overview
 
@@ -11,6 +11,7 @@ The game engine's layer system provides a structured way to manage and organize 
 A `Layer` is an abstract base class that defines the essential lifecycle methods for any layer. Users inherit from this class to create custom layers. Layers include event handling and can be toggled on or off.
 
 ### Key Features of a Layer
+
 - **Initialization and Lifecycle**:
   - `OnInitialize()`: Setup tasks when the layer is created.
   - `OnStart()`: Called when the layer becomes active.
@@ -21,6 +22,7 @@ A `Layer` is an abstract base class that defines the essential lifecycle methods
   - `OnEvent(event)`: Processes events, returning whether the event was handled.
 
 ### Example
+
 ```python
 from Layers import Layer
 
@@ -52,6 +54,7 @@ class GameLayer(Layer):
 The `LayerStack` is responsible for managing the layers and overlays. It provides methods to add, update, and remove layers while ensuring the proper lifecycle management.
 
 ### Key Features
+
 1. **Layer Management**:
    - `AddLayer(layer)`: Adds a layer to the stack.
    - `AddOverlay(overlay)`: Adds an overlay to the stack.
@@ -61,6 +64,7 @@ The `LayerStack` is responsible for managing the layers and overlays. It provide
    - Events are propagated through overlays first, followed by layers, in the order they were added.
 
 ### Example
+
 ```python
 from LayerStack import LayerStack
 from Layers import Layer

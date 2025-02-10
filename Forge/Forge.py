@@ -6,9 +6,7 @@ class Forge(PhotonApplication):
     def OnStart(self) -> None:        
         self._LayerStack.AddOverlay(EditorLayer())
     
-    def OnUpdate(self, dt: float) -> None:
-        ClientLoggers.Info("In User teritory")
-        self.OnEvent(WindowCloseEvent())
+    def OnUpdate(self, dt: float) -> None: ...
         
     def OnEnd(self) -> None: ...
 

@@ -1,4 +1,4 @@
-# 3. Using Photon
+# Using Photon
 
 Now let us see all the important things you need to do to make your application with Photon.
 

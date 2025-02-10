@@ -1,10 +1,11 @@
-# 3.3 Managing Files
+# Managing Files
 
 ## Loading Files
 
 The `FileManager` class offers a robust mechanism for loading files. When a file is loaded, it is cached for efficient reuse. The following example demonstrates how to load a file:
 
 ### Example
+
 ```python
 from FileManager import FileManager
 
@@ -27,6 +28,7 @@ print(data)
 The file manager maintains a cache of files. Cached files are automatically cleared based on the `cacheClearTime` specified during initialization. To disable cache clearing, set `cacheClearTime` to `-1`.
 
 ### Example
+
 ```python
 # Initialize with cache clearing disabled
 FileManager.INIT(cacheClearTime=-1)
@@ -44,6 +46,7 @@ The cache handler thread will periodically check for unused files and release th
 Writing to files is done asynchronously to ensure performance. The `FileManager.Write` method schedules the write operation using a thread pool.
 
 ### Example
+
 ```python
 # Write data to a file
 file = File(Stream(), Path("/path/to/file"))
@@ -59,6 +62,7 @@ FileManager.Write(file)
 Context managers ensure that resources like file streams are properly acquired and released, reducing the risk of resource leaks. The `File`, `FileReader`, and `FileWriter` classes all support context management.
 
 ### FileReader Example
+
 ```python
 from FileManager import FileReader
 from pathlib import Path
@@ -71,6 +75,7 @@ with FileReader(file_path) as file:
 ```
 
 ### FileWriter Example
+
 ```python
 from FileManager import FileWriter
 from pathlib import Path
@@ -84,6 +89,7 @@ with FileWriter(file_path) as file:
 ```
 
 ### Benefits of Using Context Managers
+
 - **Automatic Resource Management**: Resources like file streams are automatically released when the block exits.
 - **Error Handling**: Any exceptions raised within the block are handled, and cleanup still occurs.
 - **Cleaner Code**: The syntax is concise and readable.

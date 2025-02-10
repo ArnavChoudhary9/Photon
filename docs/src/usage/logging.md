@@ -1,4 +1,4 @@
-# 3.2 Logging
+# Logging
 
 Logging is an essential feature of any game engine. Photon also provides the user with loggers that can be used by the users.
 

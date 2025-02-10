@@ -1,4 +1,4 @@
-# 1. Introduction
+# Introduction
 
 Photon is a Game engine written in Python just for the fun of it. It uses libraries like [PyImGUI](https://github.com/pyimgui/pyimgui), [PyOpenGL](https://pyopengl.sourceforge.net/) and [pyGLFW](https://github.com/FlorianRhiem/pyGLFW/) for a lot of graphical heavy-lifting.
 

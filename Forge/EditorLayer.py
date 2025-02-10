@@ -16,8 +16,7 @@ class EditorLayer(Overlay):
     def OnStart(self):
         ClientLoggers.Info("Test")
         
-    def OnUpdate(self, dt: float):
-        ClientLoggers.Info("EditorLayer::OnUpdate")
+    def OnUpdate(self, dt: float): ...
     
     def OnStop(self):
         # This time we will not see a "Loading Resource" massage

@@ -7,4 +7,4 @@ Entities:
     Translation: !<Vector3> [0.0, 0.0, 0.0]
 Scene: Scene
 UUID: 39e79335-5bc8-3186-98fe-47a12ffe4f8e
-Version: 0.0.4.dev0
+Version: 0.0.5.dev0

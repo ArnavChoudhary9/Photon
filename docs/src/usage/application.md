@@ -1,4 +1,4 @@
-# 3.1 Making an application
+# Making an application
 
 To make your first app using Photon Start by importing it in you Project.py file.
 

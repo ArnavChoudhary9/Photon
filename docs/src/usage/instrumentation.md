@@ -1,4 +1,4 @@
-# 3.6 Instrumentation
+# Instrumentation
 
 The engine, when running with the [INSTRUMENTATION flag](../appendix/features.md) set, generates a few `.json` files that can be used to measure the performance of the engine.
 

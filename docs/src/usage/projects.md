@@ -1,4 +1,4 @@
-# 3.9 Project
+# Project
 
 This module defines the `Project` class, which manages the overall structure and data of a project within the Photon engine. It handles project creation, loading, saving, and scene management.
 

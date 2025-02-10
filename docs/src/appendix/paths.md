@@ -1,4 +1,4 @@
-# 4.1 Paths
+# Paths
 
 ## Overview
 

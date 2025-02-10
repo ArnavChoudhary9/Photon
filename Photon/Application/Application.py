@@ -4,6 +4,7 @@ from ..Events import *
 from ..Layers import *
 from ..FileManager import FileManager
 from ..Instrumentation import *
+from ..GraphicsEngine import *
 
 from abc import ABC, abstractmethod
 from typing import Type
@@ -13,6 +14,7 @@ class PhotonApplication(ABC):
     _Running: bool
     _LayerStack: LayerStack
     _EventDispatcher: EventDispatcher
+    _Window: Window
     
     def __init__(self) -> None:
         self._Running = True
@@ -20,6 +22,10 @@ class PhotonApplication(ABC):
         
         self._EventDispatcher = EventDispatcher()
         self._EventDispatcher.AddHandler(EventType.WindowClose, self.CloseEventHandler)
+        
+        winProps = WindowProperties("Photon")
+        winProps.EventCallback = self.OnEvent
+        self._Window = Window(winProps)
     
     @abstractmethod 
     def OnStart(self) -> None: ...
@@ -46,7 +52,6 @@ class PhotonApplication(ABC):
             del layerUpdate
             
             userUpdate = Timer("Application::OnUpdate")
-            # Handle user input, draw ImGui, etc.
             self.OnUpdate(0)
             del userUpdate
             
@@ -55,6 +60,10 @@ class PhotonApplication(ABC):
             self._LayerStack.OnGUIRender()
             self._LayerStack.OnGUIEnd()
             del guiRender
+            
+            windowUpdate = Timer("Application::WindowUpdate")
+            self._Window.OnUpdate(1/60)
+            del windowUpdate
             
             del tick
         
