@@ -5,6 +5,7 @@ from ..Layers import *
 from ..FileManager import FileManager
 from ..Instrumentation import *
 from ..GraphicsEngine import *
+from ..GUI import GUIInitializer
 
 from abc import ABC, abstractmethod
 from typing import Type
@@ -26,12 +27,13 @@ class PhotonApplication(ABC):
         self._EventDispatcher = EventDispatcher()
         self._EventDispatcher.AddHandler(EventType.WindowClose, self.CloseEventHandler)
         
-        winProps = WindowProperties("Photon")
+        winProps = WindowProperties(self.__class__.__name__)
         winProps.Width = 1280
         winProps.Height = 720
         winProps.EventCallback = self.OnEvent
         
         self._Window = Window(winProps)
+        self._LayerStack.AddOverlay(GUIInitializer(self._Window))
         
         self._LastUpdateTime = Time.PerfCounter()
         self._dt = 1/60

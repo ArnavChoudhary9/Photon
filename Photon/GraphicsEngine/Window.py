@@ -38,7 +38,7 @@ class Window:
             glfw.set_error_callback(Window.GLFWErrorEventHandler)
             Window.GLFWInitialized = True
 
-        title: str = "{} - PI v{}".format(properties.Title, PHOTON_VERSION)
+        title: str = "{} - Photon v{}".format(properties.Title, PHOTON_VERSION)
         if DEBUG: title += " - Config: {}".format(CONFIG)
 
         self.__NativeHandle = glfw.create_window(properties.Width, properties.Height, title, None, None)

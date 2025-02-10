@@ -13,6 +13,18 @@ if config=='r': options.append("--noconsole")
 modules = [
     project,
     "Photon",
+    "uuid",
+    "importlib",
+    "importlib.recources",
+    "spdlog",
+    "concurrent",
+    "json",
+    "glfw",
+    "pyrr",
+    "esper",
+    "cProfile",
+    "OpenGL",
+    "imgui"
 ]
 
 for module in modules:
