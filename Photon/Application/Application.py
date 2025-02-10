@@ -120,6 +120,7 @@ def AppRunner() -> None:
 def Main() -> None:
     # Engine Start Up Code
     FileManager.INIT()
+    Texture.Init()
     
     if not Features.INSTUMENTATION:
         AppRunner()

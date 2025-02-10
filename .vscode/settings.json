@@ -1,7 +1,8 @@
 {
     "python.analysis.exclude": [
         "Libraries/*",
-        "venv/*"
+        "venv/*",
+        "stubs/*",
     ],
     "python.analysis.completeFunctionParens": true,
     "python.analysis.diagnosticMode": "workspace",

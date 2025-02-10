@@ -4,6 +4,7 @@ class EditorLayer(Overlay):
     __CurrentScene: Scene
     __CurrentProject: Project
     __AppOnEventFunction: Callable[[Event], bool]
+    __Texture: Texture
     
     __dt: float
     
@@ -13,7 +14,8 @@ class EditorLayer(Overlay):
     
     def OnInitialize(self):
         self.__CurrentProject = Project(Path("DefaultProject"), "DefaultProject")
-            
+        self.__Texture = LoadImageAsTexture(Path("Resources\\moon.jpg"))
+        
         self.__dt = 0.0
     
     def OnStart(self): ...
@@ -68,6 +70,9 @@ class EditorLayer(Overlay):
         with imgui.begin("Test"):
             imgui.text("Hello, world!")
             imgui.text(f"FPS: {int(1/self.__dt)}")
+            
+        with imgui.begin("Moon"):
+            imgui.image(self.__Texture.RendererID, *self.__Texture.Dimension)
 
     def ShowMenuBar(self) -> None:
         with imgui.begin_menu_bar():
