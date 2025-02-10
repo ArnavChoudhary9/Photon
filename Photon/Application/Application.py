@@ -16,6 +16,9 @@ class PhotonApplication(ABC):
     _EventDispatcher: EventDispatcher
     _Window: Window
     
+    _LastUpdateTime: float
+    _dt: float
+    
     def __init__(self) -> None:
         self._Running = True
         self._LayerStack = LayerStack()
@@ -24,8 +27,14 @@ class PhotonApplication(ABC):
         self._EventDispatcher.AddHandler(EventType.WindowClose, self.CloseEventHandler)
         
         winProps = WindowProperties("Photon")
+        winProps.Width = 1280
+        winProps.Height = 720
         winProps.EventCallback = self.OnEvent
+        
         self._Window = Window(winProps)
+        
+        self._LastUpdateTime = Time.PerfCounter()
+        self._dt = 1/60
     
     @abstractmethod 
     def OnStart(self) -> None: ...
@@ -47,12 +56,15 @@ class PhotonApplication(ABC):
         while self._Running:
             tick = Timer("Application::Tick")
             
+            self._dt = Time.PerfCounter() - self._LastUpdateTime
+            self._LastUpdateTime = Time.PerfCounter()
+            
             layerUpdate = Timer("Application::LayerUpdate")
-            self._LayerStack.OnUpdate(0)
+            self._LayerStack.OnUpdate(self._dt)
             del layerUpdate
             
             userUpdate = Timer("Application::OnUpdate")
-            self.OnUpdate(0)
+            self.OnUpdate(self._dt)
             del userUpdate
             
             guiRender = Timer("Application::GUIRender")
@@ -62,7 +74,7 @@ class PhotonApplication(ABC):
             del guiRender
             
             windowUpdate = Timer("Application::WindowUpdate")
-            self._Window.OnUpdate(1/60)
+            self._Window.OnUpdate(self._dt)
             del windowUpdate
             
             del tick
