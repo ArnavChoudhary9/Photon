@@ -24,7 +24,8 @@ modules = [
     "esper",
     "cProfile",
     "OpenGL",
-    "imgui"
+    "imgui",
+    "PIL",
 ]
 
 for module in modules:

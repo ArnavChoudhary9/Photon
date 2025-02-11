@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Protocol, TypeVar
+from typing import Callable, Dict, Protocol, TypeVar, List
 
 # This just shifts 1 to i th BIT
 def BIT(i: int) -> int:
@@ -24,6 +24,8 @@ class EventCategory:
     Keyboard       = BIT(2)
     Mouse          = BIT(3)
     MouseButton    = BIT(4)
+    
+    UserDefined = BIT(5)
 
 class Event:
     Handled = False
@@ -48,7 +50,7 @@ class SupportsEvents(Protocol):
 _T = TypeVar("_T", bound=SupportsEvents)
 
 class EventDispatcher:
-    __Map: Dict[int, Callable[[SupportsEvents], bool]]
+    __Map: Dict[int, Callable[[SupportsEvents], bool] | List[Callable[[SupportsEvents], bool]]]
 
     @staticmethod
     # Just a placeholder function if nothing matches
@@ -58,9 +60,24 @@ class EventDispatcher:
     def __init__(self) -> None:
         self.__Map = {}
 
-    def AddHandler(self, eventType: int, handler: Callable[[_T], bool]) -> None:
-        self.__Map[eventType] = handler # type: ignore
+    def AddHandler(self, eventType: int, handler: Callable[[SupportsEvents], bool]) -> None:
+        handlers = self.__Map.get(eventType, False)
+        if not handlers:
+            self.__Map[eventType] = handler
+            return
+        
+        if isinstance(handlers, list):
+            handlers.append(handler)
+            return
+        
+        self.__Map[eventType] = [handlers, handler]  # type: ignore
 
     def Dispatch(self, event: Event) -> bool:
         handler = self.__Map.get(event.EventType, EventDispatcher.DoNothing)
+        
+        if isinstance(handler, list):
+            for handler in handler:
+                if handler(event): return True
+            return False
+        
         return handler(event)

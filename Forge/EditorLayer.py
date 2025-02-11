@@ -1,10 +1,13 @@
 from Photon import *
+from Panels import *
 
 class EditorLayer(Overlay):
     __CurrentScene: Scene
     __CurrentProject: Project
     __AppOnEventFunction: Callable[[Event], bool]
-    __Texture: Texture
+    
+    __Panels: List[Panel]
+    __EventHandler: EventDispatcher
     
     __dt: float
     
@@ -14,19 +17,31 @@ class EditorLayer(Overlay):
     
     def OnInitialize(self):
         self.__CurrentProject = Project(Path("DefaultProject"), "DefaultProject")
-        self.__Texture = LoadImageAsTexture(Path("Resources\\moon.jpg"))
+        self.__EventHandler = EventDispatcher()
+        
+        self.__Panels = [
+            Viewport(self.__EventHandler, self.OnEvent),
+            ContentBrowser(self.__EventHandler, self.OnEvent),
+            Console(self.__EventHandler, self.OnEvent),
+            DebugProperties(self.__EventHandler, self.OnEvent),
+            Properties(self.__EventHandler, self.OnEvent),
+            SceneHierarchy(self.__EventHandler, self.OnEvent)
+        ]
         
         self.__dt = 0.0
     
     def OnStart(self): ...
-        
+    
+    def OnEvent(self, event: Event) -> bool:
+        return self._EventDispatcher.Dispatch(event)
+    
     def OnUpdate(self, dt: float): self.__dt = dt
     
     def OnStop(self):        
         self.__CurrentProject.Save()
     
     def OnDestroy(self): ...
-    
+
     def OnGUIStart(self):
         # Hackey fix
         # TODO: Fix this later
@@ -63,16 +78,12 @@ class EditorLayer(Overlay):
         if io.config_flags & imgui.CONFIG_DOCKING_ENABLE:
             dockspaceID = imgui.get_id("DockSpace")
             imgui.dockspace(dockspaceID, (0.0, 0.0), dockspaceFlags)
-        
+
     def OnGUIRender(self):
         self.ShowMenuBar()
         
-        with imgui.begin("Test"):
-            imgui.text("Hello, world!")
-            imgui.text(f"FPS: {int(1/self.__dt)}")
-            
-        with imgui.begin("Moon"):
-            imgui.image(self.__Texture.RendererID, *self.__Texture.Dimension)
+        for panel in self.__Panels:
+            panel.OnGUIRender()
 
     def ShowMenuBar(self) -> None:
         with imgui.begin_menu_bar():
@@ -81,6 +92,6 @@ class EditorLayer(Overlay):
                     self.__AppOnEventFunction(WindowCloseEvent())
 
                 imgui.end_menu()
-    
+
     def OnGUIEnd(self):
         imgui.end() # This ends the dockspace

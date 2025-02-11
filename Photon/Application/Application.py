@@ -25,7 +25,7 @@ class PhotonApplication(ABC):
         self._LayerStack = LayerStack()
         
         self._EventDispatcher = EventDispatcher()
-        self._EventDispatcher.AddHandler(EventType.WindowClose, self.CloseEventHandler)
+        self._EventDispatcher.AddHandler(EventType.WindowClose, self.CloseEventHandler) # type: ignore
         
         winProps = WindowProperties(self.__class__.__name__)
         winProps.Width = 1280
@@ -87,7 +87,7 @@ class PhotonApplication(ABC):
     def CloseEventHandler(self, windowCloseEvent: WindowCloseEvent) -> bool:
         windowCloseEvent.Handled = True
         self._Running = False
-        return True
+        return False
 
 def FindSubclass() -> Type[PhotonApplication]:
     """Find a subclass of PhotonApplication dynamically."""
