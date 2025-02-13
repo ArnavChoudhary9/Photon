@@ -1,5 +1,7 @@
 from Photon import *
 
+from .Events import *
+
 class Panel:
     _EventDispatcher: EventDispatcher
     _EventPropogator: Callable[[Event], bool]

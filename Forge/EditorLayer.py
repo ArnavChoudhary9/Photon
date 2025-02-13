@@ -7,7 +7,6 @@ class EditorLayer(Overlay):
     __AppOnEventFunction: Callable[[Event], bool]
     
     __Panels: List[Panel]
-    __EventHandler: EventDispatcher
     
     __dt: float
     
@@ -17,25 +16,31 @@ class EditorLayer(Overlay):
     
     def OnInitialize(self):
         self.__CurrentProject = Project(Path("DefaultProject"), "DefaultProject")
-        self.__EventHandler = EventDispatcher()
         
         self.__Panels = [
-            Viewport(self.__EventHandler, self.OnEvent),
-            ContentBrowser(self.__EventHandler, self.OnEvent),
-            Console(self.__EventHandler, self.OnEvent),
-            DebugProperties(self.__EventHandler, self.OnEvent),
-            Properties(self.__EventHandler, self.OnEvent),
-            SceneHierarchy(self.__EventHandler, self.OnEvent)
+            Viewport(self._EventDispatcher, self.OnEvent),
+            Console(self._EventDispatcher, self.OnEvent),
+            ContentBrowser(self._EventDispatcher, self.OnEvent),
+            DebugProperties(self._EventDispatcher, self.OnEvent),
+            Properties(self._EventDispatcher, self.OnEvent),
+            SceneHierarchy(self._EventDispatcher, self.OnEvent)
         ]
         
+        self.SetCurrentScene(self.__CurrentProject.GetScene(0))
         self.__dt = 0.0
+    
+    def SetCurrentScene(self, scene: Scene) -> None:
+        self.__CurrentScene = scene
+        self.OnEvent(SceneContextChangedEvent(scene))
     
     def OnStart(self): ...
     
     def OnEvent(self, event: Event) -> bool:
         return self._EventDispatcher.Dispatch(event)
     
-    def OnUpdate(self, dt: float): self.__dt = dt
+    def OnUpdate(self, dt: float):
+        self.__dt = dt
+        self.__CurrentScene.OnUpdateEditor(dt)
     
     def OnStop(self):        
         self.__CurrentProject.Save()
