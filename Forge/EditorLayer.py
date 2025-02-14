@@ -16,14 +16,18 @@ class EditorLayer(Overlay):
     
     def OnInitialize(self):
         self.__CurrentProject = Project(Path("DefaultProject"), "DefaultProject")
+        self._EventDispatcher.AddHandler(EventType.KeyPressed, self.OnKeyPress) # type: ignore
         
         self.__Panels = [
-            Viewport(self._EventDispatcher, self.OnEvent),
-            Console(self._EventDispatcher, self.OnEvent),
-            ContentBrowser(self._EventDispatcher, self.OnEvent),
-            DebugProperties(self._EventDispatcher, self.OnEvent),
-            Properties(self._EventDispatcher, self.OnEvent),
-            SceneHierarchy(self._EventDispatcher, self.OnEvent)
+            Viewport        (self._EventDispatcher, self.OnEvent),
+            
+            SceneHierarchy  (self._EventDispatcher, self.OnEvent),
+            Properties      (self._EventDispatcher, self.OnEvent),
+            
+            Console         (self._EventDispatcher, self.OnEvent),
+            ContentBrowser  (self._EventDispatcher, self.OnEvent),
+            
+            DebugProperties (self._EventDispatcher, self.OnEvent),
         ]
         
         self.SetCurrentScene(self.__CurrentProject.GetScene(0))
@@ -34,10 +38,26 @@ class EditorLayer(Overlay):
         self.OnEvent(SceneContextChangedEvent(scene))
     
     def OnStart(self): ...
-    
-    def OnEvent(self, event: Event) -> bool:
-        return self._EventDispatcher.Dispatch(event)
-    
+
+    def OnKeyPress(self, event: KeyPressedEvent) -> bool:
+        control = Input.IsKeyPressed(KeyCodes.LEFT_CONTROL) or Input.IsKeyPressed(KeyCodes.RIGHT_CONTROL)
+        shift   = Input.IsKeyPressed(KeyCodes.LEFT_SHIFT)   or Input.IsKeyPressed(KeyCodes.RIGHT_SHIFT)
+        
+        if not control and not shift:
+            pass
+        
+        elif control and not shift:
+            if event.KeyCode == KeyCodes.Q:
+                self.__AppOnEventFunction(WindowCloseEvent())
+        
+        elif shift and not control:
+            pass
+        
+        else: # shift and control
+            pass
+        
+        return False
+
     def OnUpdate(self, dt: float):
         self.__dt = dt
         self.__CurrentScene.OnUpdateEditor(dt)
@@ -72,6 +92,7 @@ class EditorLayer(Overlay):
             windowFlags |= imgui.WINDOW_NO_BACKGROUND
 
         imgui.push_style_var(imgui.STYLE_WINDOW_PADDING, ImVec2(0.0, 0.0))
+        
         # This begins the dockspace
         imgui.begin("Dockspace", True, windowFlags)
         imgui.pop_style_var()

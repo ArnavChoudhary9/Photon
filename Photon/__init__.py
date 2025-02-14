@@ -4,6 +4,7 @@ from .Events          import *
 from .FileManager     import *
 from .GraphicsEngine  import *
 from .GUI             import *
+from .Input           import *
 from .Instrumentation import *
 from .Layers          import *
 from .Logging         import *

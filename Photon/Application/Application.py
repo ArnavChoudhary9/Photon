@@ -4,6 +4,7 @@ from ..Events import *
 from ..Layers import *
 from ..FileManager import FileManager
 from ..Instrumentation import *
+from ..Input import *
 from ..GraphicsEngine import *
 from ..GUI import GUIInitializer
 
@@ -33,6 +34,8 @@ class PhotonApplication(ABC):
         winProps.EventCallback = self.OnEvent
         
         self._Window = Window(winProps)
+        
+        Input.Init(self._Window.NativeWindow)
         self._LayerStack.AddOverlay(GUIInitializer(self._Window))
         
         self._LastUpdateTime = Time.PerfCounter()
