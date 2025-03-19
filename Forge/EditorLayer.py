@@ -6,6 +6,8 @@ class EditorLayer(Overlay):
     __CurrentProject: Project
     __AppOnEventFunction: Callable[[Event], bool]
     
+    __CommunicationLayer: CommunicationLayer
+    
     __Panels: List[Panel]
     
     __dt: float
