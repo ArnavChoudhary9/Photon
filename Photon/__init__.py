@@ -3,7 +3,6 @@
 =======
 >>>>>>> 8735098 (Added CommunicationLayer import *)
 from .Application        import *
-from .CommunicationLayer import *
 from .ECS                import *
 from .Events             import *
 from .FileManager        import *
