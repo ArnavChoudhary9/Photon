@@ -1,6 +1,6 @@
 Entities:
 - Entity: 539d42ba-48f8-487c-b4da-5ea5443b4dbc
-  Tag: Empty Entitynejgnvr
+  Tag: Empty Entity
   Transform:
     Rotation: !<Vector3> [0.0, 0.0, 0.0]
     Scale: !<Vector3> [1.0, 1.0, 1.0]
