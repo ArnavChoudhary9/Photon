@@ -3,11 +3,9 @@ from Photon import *
 from .Events import *
 
 class Panel:
-    _EventDispatcher: EventDispatcher
-    _EventPropogator: Callable[[Event], bool]
+    _CommunicationLayer: CommunicationLayer
     
-    def __init__(self, eventHandler: EventDispatcher, eventPropogator: Callable[[Event], bool]) -> None:
-        self._EventDispatcher = eventHandler
-        self._EventPropogator = eventPropogator
+    def __init__(self, communicationLayer: CommunicationLayer) -> None:
+        self._CommunicationLayer = communicationLayer
         
     def OnGUIRender(self) -> None: ...

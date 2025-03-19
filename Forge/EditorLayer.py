@@ -19,17 +19,18 @@ class EditorLayer(Overlay):
     def OnInitialize(self):
         self.__CurrentProject = Project(Path("DefaultProject"), "DefaultProject")
         self._EventDispatcher.AddHandler(EventType.KeyPressed, self.OnKeyPress) # type: ignore
+        self.__CommunicationLayer = CommunicationLayer()
         
         self.__Panels = [
-            Viewport        (self._EventDispatcher, self.OnEvent),
+            Viewport        (self.__CommunicationLayer),
             
-            SceneHierarchy  (self._EventDispatcher, self.OnEvent),
-            Properties      (self._EventDispatcher, self.OnEvent),
+            SceneHierarchy  (self.__CommunicationLayer),
+            Properties      (self.__CommunicationLayer),
             
-            Console         (self._EventDispatcher, self.OnEvent),
-            ContentBrowser  (self._EventDispatcher, self.OnEvent),
+            Console         (self.__CommunicationLayer),
+            ContentBrowser  (self.__CommunicationLayer),
             
-            DebugProperties (self._EventDispatcher, self.OnEvent),
+            DebugProperties (self.__CommunicationLayer),
         ]
         
         self.SetCurrentScene(self.__CurrentProject.GetScene(0))
@@ -37,7 +38,7 @@ class EditorLayer(Overlay):
     
     def SetCurrentScene(self, scene: Scene) -> None:
         self.__CurrentScene = scene
-        self.OnEvent(SceneContextChangedEvent(scene))
+        self.__CommunicationLayer.PublishEvent(SceneContextChangedEvent(scene))
     
     def OnStart(self): ...
 

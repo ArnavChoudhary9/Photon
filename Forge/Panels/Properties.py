@@ -23,9 +23,9 @@ class ComponentDrawer:
 class Properties(Panel):
     _Context: Entity | None
     
-    def __init__(self, eventHandler: EventDispatcher, eventPropogator: Callable[[Event], bool])  ->  None:
-        super().__init__(eventHandler, eventPropogator)
-        eventHandler.AddHandler(PanelEventTypes.EntitySelected, self.OnEntitySelected)  # type: ignore
+    def __init__(self, communicationLayer: CommunicationLayer)  ->  None:
+        super().__init__(communicationLayer)
+        communicationLayer.Subscribe(PanelEventTypes.EntitySelected, self.OnEntitySelected)  # type: ignore
         
         self._Context = None
     

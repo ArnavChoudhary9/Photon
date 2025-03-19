@@ -5,9 +5,9 @@ class SceneHierarchy(Panel):
     __Context: Scene | None
     __SelectionContext: Entity | None
 
-    def __init__(self, eventHandler: EventDispatcher, eventPropogator: Callable[[Event], bool])  ->  None:
-        super().__init__(eventHandler, eventPropogator)
-        eventHandler.AddHandler(PanelEventTypes.SceneContextChanged, self.SceneContextChanged) # type: ignore
+    def __init__(self, communicationLayer: CommunicationLayer)  ->  None:
+        super().__init__(communicationLayer)
+        communicationLayer.Subscribe(PanelEventTypes.SceneContextChanged, self.SceneContextChanged) # type: ignore
         
         self.__Context = None
         self.__SelectionContext = None
@@ -33,7 +33,7 @@ class SceneHierarchy(Panel):
 
     def ChangeSelectionContext(self, selectionContext: Entity | None) -> None:
         self.__SelectionContext = selectionContext
-        self._EventPropogator(EntitySelectedEvent(selectionContext))
+        self._CommunicationLayer.PublishEvent(EntitySelectedEvent(selectionContext))
 
     def __DrawEntityNode(self, entity: Entity) -> None:
         tag = entity.GetComponent(TagComponent)
