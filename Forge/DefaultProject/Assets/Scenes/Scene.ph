@@ -1,5 +1,8 @@
 Entities:
 - Entity: e591a35b-6d9f-4a69-9306-852d5fce9a73
+  RelationshipComponent:
+    ChildrenIDs: []
+    ParentID: null
   Tag: Empty Entity
   Transform:
     Rotation: !<Vector3> [0.0, 0.0, 0.0]

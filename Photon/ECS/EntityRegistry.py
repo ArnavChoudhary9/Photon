@@ -40,7 +40,6 @@ class EntityRegistry():
         self._World.add_component(entity, component)
 
     def RemoveComponent(self, entity: int, component_type: Type[CTV]) -> None:
-        component = self.ComponentForEntity(entity, component_type)
         self._World.remove_component(entity, component_type)
         self.__ComponentRemovedFunction(entity, component_type) # type: ignore
 

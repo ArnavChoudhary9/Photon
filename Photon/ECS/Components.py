@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List, Any
 from uuid import UUID
 
 from typing import TypeVar, Protocol
@@ -82,11 +82,46 @@ class TransformComponent:
             "Scale"       : self.Scale
         }}
     
+    # Special Deserialize, everything should return a object
     def Deserialize(self, data: Dict[str, pyrr.Vector3]) -> None:
         self.Translation = data["Translation"]
         self.Rotation    = data["Rotation"]
         self.Scale       = data["Scale"]
+class RelationshipComponent:
+    ParentID: UUID | None
+    ChildrenIDs: List[UUID]
+    
+    def __init__(self, parentID: UUID|None=None, childrenIDs: List[UUID]|None=None) -> None:
+        self.ParentID = parentID
+        self.ChildrenIDs = childrenIDs or []
 
+    def AddChild(self, childID: UUID) -> None:
+        self.ChildrenIDs.append(childID)
+        
+    def RemoveChild(self, childID: UUID) -> None:
+        if childID in self.ChildrenIDs:
+            self.ChildrenIDs.remove(childID)
+            
+    def ChangePatent(self, parentID: UUID) -> None:
+        self.ParentID = parentID
+        
+    def Copy(self): ...
+    
+    def Serialize(self) -> Dict[str, Dict]:
+        return {"RelationshipComponent": {
+            "ParentID": self.ParentID,
+            "ChildrenIDs": self.ChildrenIDs
+        }}
+    
+    @staticmethod
+    def Deserialize(data: Dict[str, Any]) -> 'RelationshipComponent':
+        component = RelationshipComponent()
+        
+        component.ParentID = UUID(data["ParentID"]) if data["ParentID"] else None
+        component.ChildrenIDs = [UUID(child) for child in data["ChildrenIDs"]]
+        
+        return component
+    
 # region Sellective Components
 # They are only applied to secective Entities
 # class CameraComponent:
@@ -127,6 +162,6 @@ class TransformComponent:
 
 # CTV = ComponentTypeVar
 CTV = TypeVar("CTV",
-        IDComponent, TagComponent, TransformComponent,
+        IDComponent, TagComponent, TransformComponent, RelationshipComponent,
         # CameraComponent, MeshComponent
     )    

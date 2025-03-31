@@ -41,6 +41,7 @@ class Scene:
         entity.AddComponent(IDComponent, uuid)
         entity.AddComponent(TagComponent, name)
         entity.AddComponent(TransformComponent)
+        entity.AddComponent(RelationshipComponent)
         return entity
     
     def DuplicateEntity(self, entity: Entity) -> Entity:

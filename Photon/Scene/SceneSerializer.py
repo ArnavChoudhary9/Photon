@@ -4,6 +4,7 @@ from .Scene import *
 from ..ECS import *
 
 from pathlib import Path
+import sys
 import yaml
 
 # Helper class for handling YAML serialization
@@ -82,8 +83,13 @@ class SceneSerializer:
             name = entityDict["Tag"]
             entity = scene.CreateEntityWithUUID(name, uuid)
             entity.GetComponent(TransformComponent).Deserialize(entityDict["Transform"])
+            
+            entity.RemoveComponent(RelationshipComponent) # This will be added again by loop
 
             for componentType, componentData in entityDict.items():
                 if componentType in ["Entity", "Tag", "Transform"]: continue
+                componentType = getattr(Components, componentType)
+                
+                entity.AddComponentInstance(componentType.Deserialize(componentData)) # type: ignore
 
         return scene
