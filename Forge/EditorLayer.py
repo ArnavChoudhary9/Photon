@@ -76,25 +76,24 @@ class EditorLayer(Overlay):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # type: ignore
         
         optFullscreen = True
-        dockspaceFlags = imgui.DOCKNODE_NONE
+        dockspaceFlags = imgui.DockNodeFlags_.none
 
-        windowFlags = imgui.WINDOW_MENU_BAR | imgui.WINDOW_NO_DOCKING
+        windowFlags = imgui.WindowFlags_.menu_bar | imgui.WindowFlags_.no_docking # type: ignore
         if optFullscreen:
             viewport = imgui.get_main_viewport()
-            imgui.set_next_window_position(*viewport.pos)
-            imgui.set_next_window_size(*viewport.size)
+            imgui.set_next_window_pos(viewport.pos)
+            imgui.set_next_window_size(viewport.size)
 
-            imgui.push_style_var(imgui.STYLE_WINDOW_ROUNDING, 0.0)
-            imgui.push_style_var(imgui.STYLE_WINDOW_BORDERSIZE, 0.0)
+            imgui.push_style_var(imgui.StyleVar_.window_rounding, 0.0) # type: ignore
+            imgui.push_style_var(imgui.StyleVar_.window_border_size, 0.0) # type: ignore
 
-            windowFlags |= imgui.WINDOW_NO_TITLE_BAR | imgui.WINDOW_NO_COLLAPSE | imgui.WINDOW_NO_RESIZE | \
-                imgui.WINDOW_NO_MOVE
-            windowFlags |= imgui.WINDOW_NO_BRING_TO_FRONT_ON_FOCUS | imgui.WINDOW_NO_NAV_FOCUS
+            windowFlags |= imgui.WindowFlags_.no_title_bar | imgui.WindowFlags_.no_collapse | imgui.WindowFlags_.no_resize | imgui.WindowFlags_.no_move # type: ignore
+            windowFlags |= imgui.WindowFlags_.no_bring_to_front_on_focus | imgui.WindowFlags_.no_nav_focus # type: ignore
 
-        if dockspaceFlags & imgui.DOCKNODE_PASSTHRU_CENTRAL_NODE:
-            windowFlags |= imgui.WINDOW_NO_BACKGROUND
+        if dockspaceFlags & imgui.DockNodeFlags_.passthru_central_node: # type: ignore
+            windowFlags |= imgui.WindowFlags_.no_background
 
-        imgui.push_style_var(imgui.STYLE_WINDOW_PADDING, ImVec2(0.0, 0.0))
+        imgui.push_style_var(imgui.StyleVar_.window_padding, ImVec2(0.0, 0.0)) # type: ignore
         
         # This begins the dockspace
         imgui.begin("Dockspace", True, windowFlags)
@@ -104,9 +103,9 @@ class EditorLayer(Overlay):
             imgui.pop_style_var(2)
         
         io = imgui.get_io()
-        if io.config_flags & imgui.CONFIG_DOCKING_ENABLE:
+        if io.config_flags & imgui.ConfigFlags_.docking_enable: # type: ignore
             dockspaceID = imgui.get_id("DockSpace")
-            imgui.dockspace(dockspaceID, (0.0, 0.0), dockspaceFlags)
+            imgui.dock_space(dockspaceID, (0.0, 0.0), dockspaceFlags) # type: ignore
 
     def OnGUIRender(self):
         self.ShowMenuBar()
@@ -115,7 +114,7 @@ class EditorLayer(Overlay):
             panel.OnGUIRender()
 
     def ShowMenuBar(self) -> None:
-        with imgui.begin_menu_bar():
+        with imgui_ctx.begin_menu_bar():
             if imgui.begin_menu("File"):
                 if imgui.menu_item("Quit", "Ctrl+Q", False, True)[0]: # type: ignore
                     self.__AppOnEventFunction(WindowCloseEvent())

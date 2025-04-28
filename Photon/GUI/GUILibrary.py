@@ -2,7 +2,7 @@
 # This module is completly separated from the engine and does not use any other modules from the engine.
 
 from typing import Tuple
-import imgui
+from imgui_bundle import imgui
 import pyrr
 
 class GUILibrary:
@@ -26,9 +26,9 @@ class GUILibrary:
         imgui.text(lable)
         imgui.next_column()
 
-        imgui.push_item_width(imgui.calculate_item_width()/3)
-        imgui.push_item_width(imgui.calculate_item_width()/2.5*2)
-        imgui.push_item_width(imgui.calculate_item_width())
+        imgui.push_item_width(imgui.calc_item_width()/3)
+        imgui.push_item_width(imgui.calc_item_width()/2.5*2)
+        imgui.push_item_width(imgui.calc_item_width())
 
         imgui.push_style_var(imgui.STYLE_ITEM_SPACING, imgui.Vec2(0, 1)) # type: ignore
         lineHeight = 23
@@ -36,7 +36,7 @@ class GUILibrary:
         imgui.push_style_color( imgui.COLOR_BUTTON         , *(0.80, 0.10, 0.15, 1.00) ) # type: ignore
         imgui.push_style_color( imgui.COLOR_BUTTON_HOVERED , *(0.90, 0.20, 0.20, 1.00) ) # type: ignore
         imgui.push_style_color( imgui.COLOR_BUTTON_ACTIVE  , *(0.80, 0.10, 0.15, 1.00) ) # type: ignore
-        if imgui.button("X", lineHeight+3, lineHeight): values.x = resetValues.x
+        if imgui.button("X", (lineHeight+3, lineHeight)): values.x = resetValues.x
         imgui.pop_style_color(3)
 
         imgui.same_line()
@@ -47,7 +47,7 @@ class GUILibrary:
         imgui.push_style_color( imgui.COLOR_BUTTON         , *(0.20, 0.70, 0.20, 1.00) ) # type: ignore
         imgui.push_style_color( imgui.COLOR_BUTTON_HOVERED , *(0.20, 0.80, 0.30, 1.00) ) # type: ignore
         imgui.push_style_color( imgui.COLOR_BUTTON_ACTIVE  , *(0.20, 0.20, 0.20, 1.00) ) # type: ignore
-        if imgui.button("Y", lineHeight+3, lineHeight): values.y = resetValues.y
+        if imgui.button("Y", (lineHeight+3, lineHeight)): values.y = resetValues.y
         imgui.pop_style_color(3)
 
         imgui.same_line()
@@ -58,7 +58,7 @@ class GUILibrary:
         imgui.push_style_color( imgui.COLOR_BUTTON         , *(0.10, 0.25, 0.80, 1.00) ) # type: ignore
         imgui.push_style_color( imgui.COLOR_BUTTON_HOVERED , *(0.20, 0.35, 0.90, 1.00) ) # type: ignore
         imgui.push_style_color( imgui.COLOR_BUTTON_ACTIVE  , *(0.10, 0.25, 0.80, 1.00) ) # type: ignore
-        if imgui.button("Z", lineHeight+3, lineHeight): values.z = resetValues.z
+        if imgui.button("Z", (lineHeight+3, lineHeight)): values.z = resetValues.z
         imgui.pop_style_color(3)
 
         imgui.same_line()

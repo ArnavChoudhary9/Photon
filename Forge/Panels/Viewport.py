@@ -8,5 +8,5 @@ class Viewport(Panel):
         self.__Texture = LoadImageAsTexture(Path("Resources/moon.jpg"))
     
     def OnGUIRender(self) -> None:
-        with imgui.begin("Viewport"):
-            imgui.image(self.__Texture.RendererID, *self.__Texture.Dimension)
+        with imgui_ctx.begin("Viewport"):
+            imgui.image(self.__Texture.RendererID, self.__Texture.Dimension)

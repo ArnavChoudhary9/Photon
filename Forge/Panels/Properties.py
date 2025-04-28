@@ -34,7 +34,7 @@ class Properties(Panel):
         return False
     
     def OnGUIRender(self) -> None:
-        with imgui.begin("Properties"):
+        with imgui_ctx.begin("Properties"):
             if not self._Context: return
             
             tag = self._Context.GetComponent(TagComponent).Tag
@@ -57,23 +57,23 @@ class Properties(Panel):
     ) -> None:
         if not entity.HasComponent(componentType): return
         
-        flags  = imgui.TREE_NODE_DEFAULT_OPEN
-        flags |= imgui.TREE_NODE_FRAMED
-        flags |= imgui.TREE_NODE_SPAN_AVAILABLE_WIDTH
-        flags |= imgui.TREE_NODE_ALLOW_ITEM_OVERLAP
-        flags |= imgui.TREE_NODE_FRAME_PADDING
+        flags  = imgui.TreeNodeFlags_.default_open
+        flags |= imgui.TreeNodeFlags_.framed # type: ignore
+        flags |= imgui.TreeNodeFlags_.span_avail_width
+        flags |= imgui.TreeNodeFlags_.allow_overlap
+        flags |= imgui.TreeNodeFlags_.frame_padding
         
         component = entity.GetComponent(componentType)
-        contentRegionAvailable = imgui.get_content_region_available()
+        contentRegionAvailable = imgui.get_content_region_avail()
 
-        imgui.push_style_var(imgui.STYLE_FRAME_PADDING, (4, 4))
+        imgui.push_style_var(imgui.StyleVar_.frame_padding, (4, 4)) # type: ignore
         lineHeight = 26
         imgui.separator()
         isOpen = imgui.tree_node(name, flags)
         imgui.pop_style_var()
 
         imgui.same_line(contentRegionAvailable[0] - lineHeight * 0.5)
-        if imgui.button("+", lineHeight, lineHeight): imgui.open_popup("ComponentSettings")
+        if imgui.button("+", (lineHeight, lineHeight)): imgui.open_popup("ComponentSettings")
 
         removeComponent = False
         if imgui.begin_popup("ComponentSettings"):

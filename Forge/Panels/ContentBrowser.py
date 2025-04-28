@@ -5,5 +5,5 @@ class ContentBrowser(Panel):
         super().__init__(communicationLayer)
         
     def OnGUIRender(self) -> None:
-        with imgui.begin("Content Browser"):
+        with imgui_ctx.begin("Content Browser"):
             pass

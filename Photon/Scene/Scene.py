@@ -54,6 +54,15 @@ class Scene:
 
         return newEntity
     
+    def UpdateChildrenTransforms(self, entity: Entity) -> None:
+        relationshipComponent = entity.GetComponent(RelationshipComponent)
+        
+        for child in relationshipComponent.ChildrenIDs:
+            # child = self.__EntityRegistry
+            pass
+            # child = self.__EntityRegistry.GetEntity(child)
+            # child.GetComponent(TransformComponent).Position = entity.GetComponent(TransformComponent).Position + child.GetComponent(TransformComponent).Position
+    
     def GetEntitysWithComponent(self, component: Type[CTV]) -> List[Entity]:
         return [Entity(entity, self.__EntityRegistry) for (entity, _) in self.__EntityRegistry.GetComponent(component)]
     

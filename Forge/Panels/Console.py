@@ -5,5 +5,5 @@ class Console(Panel):
         super().__init__(communicationLayer)
         
     def OnGUIRender(self) -> None:
-        with imgui.begin("Console"):
+        with imgui_ctx.begin("Console"):
             pass

@@ -7,5 +7,4 @@
     "python.analysis.completeFunctionParens": true,
     "python.analysis.diagnosticMode": "workspace",
     "python.analysis.typeCheckingMode": "standard",
-    "python.analysis.stubPath": "./stubs"
 }

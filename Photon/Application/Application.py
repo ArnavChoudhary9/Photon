@@ -10,7 +10,7 @@ from ..GUI import GUIInitializer
 
 from abc import ABC, abstractmethod
 from typing import Type
-import sys, inspect
+import sys, inspect, traceback
 
 class PhotonApplication(ABC):
     _Running: bool
@@ -117,7 +117,8 @@ def AppRunner() -> None:
     InstrumentorObj.BeginSession("ApplicationRuntime")
     try: app.Run()
     except Exception as e:
-        print("An error occurred while running the application.", e, sep="\n")
+        print("An error occurred while running the application.")
+        traceback.print_exception(type(e), e, e.__traceback__)
     InstrumentorObj.EndSession()
 
 def Main() -> None:

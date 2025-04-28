@@ -15,9 +15,9 @@ from .Scene              import *
 from pathlib import Path
 from OpenGL.GL import * # type: ignore
 
-import imgui
-ImVec2 = imgui.Vec2 # type: ignore
-ImVec4 = imgui.Vec4 # type: ignore
+from imgui_bundle import imgui
+ImVec2 = imgui.ImVec2
+ImVec4 = imgui.ImVec4
 
 from .Core.Version import PHOTON_VERSION
 CoreLogger.Debug("Version: {}", PHOTON_VERSION)

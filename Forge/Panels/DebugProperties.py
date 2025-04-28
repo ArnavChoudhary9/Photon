@@ -5,5 +5,5 @@ class DebugProperties(Panel):
         super().__init__(communicationLayer)
         
     def OnGUIRender(self) -> None:
-        with imgui.begin("Debug Properties"):
+        with imgui_ctx.begin("Debug Properties"):
             pass
