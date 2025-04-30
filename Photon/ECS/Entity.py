@@ -52,14 +52,12 @@ class Entity:
         
         component = componentType(*args, **kwargs)
         self.__EntityRegistry.AddComponentInstance(self.__EntityHandle, component)
-        # self.__Scene.OnComponentAdded(self, component)
         return component
     
     def AddComponentInstance(self, component: CTV) -> None:
         if self.WarnIfHasComponent(type(component)): return
 
         self.__EntityRegistry.AddComponentInstance(self.__EntityHandle, component)
-        # self.__Scene.OnComponentAdded(self, component)
     
     def RemoveComponent(self, componentType: _Type[CTV]) -> None:
         if not self.HasComponent(componentType):
@@ -73,6 +71,4 @@ class Entity:
             ClientLoggers.Warn("Trying to remove an Essential Component from an Entity.")
             return
 
-        # component = self.GetComponent(componentType)
         self.__EntityRegistry.RemoveComponent(self.__EntityHandle, componentType)
-        # self.__Scene.OnComponentRemoved(self, component)

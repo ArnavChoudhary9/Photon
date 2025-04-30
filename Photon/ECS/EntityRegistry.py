@@ -7,17 +7,17 @@ class EntityRegistry():
     _World: esper.World
     
     __ComponentAddedFunction   : Callable[[Any, SupportsComponents], None]
-    __ComponentRemovedFunction : Callable[[Any, SupportsComponents], None]
+    __ComponentRemovedFunction : Callable[[Any, Type[SupportsComponents]], None]
     
     def __init__(
         self,
-        componentAddedFunction   : Callable[[Any, CTV], None],
-        componentRemovedFunction : Callable[[Any, CTV], None]
+        componentAddedFunction   : Callable[[Any, SupportsComponents], None],
+        componentRemovedFunction : Callable[[Any, Type[SupportsComponents]], None]
     ) -> None:
         self._World = esper.World()
         
-        self.__ComponentAddedFunction   = componentAddedFunction # type: ignore
-        self.__ComponentRemovedFunction = componentRemovedFunction # type: ignore
+        self.__ComponentAddedFunction   = componentAddedFunction
+        self.__ComponentRemovedFunction = componentRemovedFunction
 
     @property
     def NextEntityID(self) -> int:
@@ -36,12 +36,12 @@ class EntityRegistry():
         self.AddComponentInstance(entity, component_type(*component_args))
         
     def AddComponentInstance(self, entity: int, component: CTV) -> None:
-        self.__ComponentAddedFunction(entity, component) # type: ignore
+        self.__ComponentAddedFunction(entity, component)
         self._World.add_component(entity, component)
 
     def RemoveComponent(self, entity: int, component_type: Type[CTV]) -> None:
         self._World.remove_component(entity, component_type)
-        self.__ComponentRemovedFunction(entity, component_type) # type: ignore
+        self.__ComponentRemovedFunction(entity, component_type)
 
     def GetComponent(self, component_type: Type[Any]) -> List[Tuple[int, CTV]]:
         return self._World.get_component(component_type)
@@ -51,6 +51,13 @@ class EntityRegistry():
 
     def GetEntities(self) -> List[int]:
         return list(self._World._entities.keys())
+    
+    def GetEntitiesForComponent(self, component: Type[CTV]) -> List[int]:
+        return [entity for entity, comp in self._World.get_component(component) if comp == component]
+    
+    def GetEntityForComponent(self, component: Type[CTV]) -> int:
+        entities = self.GetEntitiesForComponent(component)
+        return entities[0] if len(entities) > 0 else -1
     
     def ComponentsForEntity(self, entity: int) -> Tuple[CTV, ...]:
         return tuple(self._World.components_for_entity(entity))

@@ -5,7 +5,7 @@ from typing import TypeVar, Protocol
 import pyrr
 
 class SupportsComponents(Protocol):
-    def  Copy(self): ...
+    def  Copy(self) -> Any: ...
 
 # They are applied to all Entities
 class IDComponent:
@@ -88,37 +88,39 @@ class TransformComponent:
         self.Rotation    = data["Rotation"]
         self.Scale       = data["Scale"]
 class RelationshipComponent:
-    ParentID: UUID | None
-    ChildrenIDs: List[UUID]
+    ParentID: IDComponent | None
+    ChildrenIDs: List[IDComponent]
     
-    def __init__(self, parentID: UUID|None=None, childrenIDs: List[UUID]|None=None) -> None:
+    def __init__(self, parentID: IDComponent | None=None, childrenIDs: List[IDComponent]|None=None) -> None:
         self.ParentID = parentID
         self.ChildrenIDs = childrenIDs or []
 
-    def AddChild(self, childID: UUID) -> None:
+    def AddChild(self, childID: IDComponent) -> None:
         self.ChildrenIDs.append(childID)
         
-    def RemoveChild(self, childID: UUID) -> None:
+    def RemoveChild(self, childID: IDComponent) -> None:
         if childID in self.ChildrenIDs:
             self.ChildrenIDs.remove(childID)
             
-    def ChangePatent(self, parentID: UUID) -> None:
+    def ChangePatent(self, parentID: IDComponent) -> None:
         self.ParentID = parentID
         
-    def Copy(self): ...
+    def Copy(self) -> 'RelationshipComponent':
+        component = RelationshipComponent(self.ParentID, self.ChildrenIDs.copy())
+        return component
     
     def Serialize(self) -> Dict[str, Dict]:
         return {"RelationshipComponent": {
-            "ParentID": self.ParentID,
-            "ChildrenIDs": self.ChildrenIDs
+            "ParentID": self.ParentID.ID if self.ParentID else None,
+            "ChildrenIDs": [child.ID for child in self.ChildrenIDs]
         }}
     
     @staticmethod
     def Deserialize(data: Dict[str, Any]) -> 'RelationshipComponent':
         component = RelationshipComponent()
         
-        component.ParentID = UUID(data["ParentID"]) if data["ParentID"] else None
-        component.ChildrenIDs = [UUID(child) for child in data["ChildrenIDs"]]
+        component.ParentID = IDComponent(UUID(data["ParentID"])) if data["ParentID"] else None
+        component.ChildrenIDs = [IDComponent(UUID(child)) for child in data["ChildrenIDs"]]
         
         return component
     
@@ -162,6 +164,7 @@ class RelationshipComponent:
 
 # CTV = ComponentTypeVar
 CTV = TypeVar("CTV",
+        SupportsComponents,
         IDComponent, TagComponent, TransformComponent, RelationshipComponent,
         # CameraComponent, MeshComponent
     )    
